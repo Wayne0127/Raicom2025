@@ -4,13 +4,16 @@
 
 基于 **Wav2Vec 2.0 / HuBERT / EfficientNet-Mel** 的语音情感识别
 
-| 自监督             | 频谱 CNN           | 池化                    | K-Fold | 推理集成 |
-| ------------------ | ------------------ | ----------------------- | ------ | -------- |
-| Wav2Vec 2.0/Hubert | EfficientNet (Mel) | Attentive / Mean / Stat | ✔️      | ✔️        |
+| 自监督             | 频谱 CNN           | 池化                    | 数据预处理 | K-Fold | 推理集成 |
+| ------------------ | ------------------ | ----------------------- |------ | ------ | -------- |
+| Wav2Vec 2.0/Hubert | EfficientNet (Mel) | Attentive / Mean / Stat | ✔️      |✔️      | ✔️        |
 
-> 本仓库提供三条基线：  
-> ① **Wav2Vec2-SER**　② **HuBERT-SER**　③ **Mel-EfficientNet-SER**  
-> 支持 **5 折交叉验证** + **多折概率融合**，开箱即用。
+> 本仓库提供四条solution：  
+>  **官方 baseline**  
+> ①  **Mel-EfficientNet-SER**  
+> ② **HuBERT-SER**  
+> ③ **Wav2Vec2-SER**　  
+> 支持 **5 折交叉验证** + **多折概率融合**，开箱即用。  
 
 ---
 
@@ -62,7 +65,7 @@ datasets/
 | 模型                   | Backbone                 | 输入          | 隐藏维 | 池化 (可选)            | 分类头                                            |
 | ---------------------- | ------------------------ | ------------- | ------ | ---------------------- | ------------------------------------------------- |
 | **HF\_Wav2Vec2SER**    | `facebook/wav2vec2-base` | 波形          | 768    | Mean / Stat / **Attn** | LayerNorm → Linear(128) → GELU → Dropout → Linear |
-| **HF\_HuBERT\_SER**    | `hubert-base-ls960`      | 波形          | 768    | Mean / Attn            | LayerNorm → Linear(256) → ReLU → Dropout → Linear |
+| **HF\_HuBERT\_SER**    | `hubert-base-ls960`      | 波形          | 768    | Mean          | LayerNorm → Linear(256) → ReLU → Dropout → Linear |
 | **MelEfficientNetSER** | **EfficientNet-B0**      | 128 × 300 Mel | 1280   | GAP                    | Linear → ReLU → Dropout → Linear                  |
 
 > **Attn 池化**：`softmax(Linear(tanh(Linear)))`，对高情感帧赋更大权重。
